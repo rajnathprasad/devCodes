@@ -47,7 +47,7 @@ app.get("/me",(req,res)=>{
     const decodedInformation = jwt.verify(token,JWT_SECRET);
     const username = decodedInformation.username;
 
-    const user = users.find(user=>username == users.username);
+    const user = users.find(user=>username == user.username);
 
     if(user){
         res.json({
