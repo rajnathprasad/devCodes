@@ -1,5 +1,5 @@
-const jwt = require("jsonwebtoken")
-const JWT_SECRET = "Rajnath1234";
+const jwt = require("jsonwebtoken");
+const {JWT_SECRET} = require("./config");
 function auth(req,res,next){
     const token = req.headers.token;
     const decodedData = jwt.verify(token, JWT_SECRET);

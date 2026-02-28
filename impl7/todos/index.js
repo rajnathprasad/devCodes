@@ -6,10 +6,10 @@ const {auth, JWT_SECRET} = require("./auth")
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const {z} = require("zod");
-require("dotenv").config();
+const {MONGO_URI, PORT} = require("./config")
 
 
-mongoose.connect(process.env.MONGO_URI).then(()=>
+mongoose.connect(MONGO_URI).then(()=>
     console.log("Database Connected")
 ).catch((err)=>{
     console.log(err)
@@ -104,4 +104,4 @@ app.get("/todos",auth,async (req,res)=>{
     })
 })
 
-app.listen(3000);
+app.listen(PORT);
