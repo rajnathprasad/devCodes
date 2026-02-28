@@ -2,13 +2,20 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const JWT_SECRET = "rajnathloveshiswife";
 const app = express();
+const path = require("path");
 
 
 //middlewares
 
 function auth(req, res, next){
     //auth code
-    const token = req.headers.authorization;
+    const token = req.headers.token;
+    if (!token) {
+        return res.status(401).json({
+            message: "Token missing"
+        });
+    }
+    try{
     const decodedInformation = jwt.verify(token,JWT_SECRET);
     const username = decodedInformation.username;
 
@@ -24,6 +31,12 @@ function auth(req, res, next){
         })
         return;
     }
+    }
+    catch(err){
+        return res.status(401).json({
+            message : "Invalid token"
+        });
+    }
 }
 
 function logger(req,res,next){
@@ -36,6 +49,10 @@ app.use(express.json());
 app.use(logger);
 
 const users =[];
+
+app.get("/",(req,res)=>{
+    res.sendFile(path.join(__dirname,"./public/index.html"));
+})
 
 app.post("/signup",(req,res)=>{
     const username = req.body.username;
@@ -73,9 +90,11 @@ app.post("/signin",(req,res)=>{
 })
 
 app.get("/me",auth,(req,res)=>{
+    const user = users.find(u => u.username === req.username);
     res.send({
-        message : `Welcome ${req.username}`
-    })
+        username: user.username,
+        password: user.password
+    });
 })
 
 
