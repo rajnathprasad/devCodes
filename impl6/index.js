@@ -1,6 +1,6 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
-const JWT_SECRET = "rajnathloveshiswife";
+const JWT_SECRET = "rajnathlovesyou";
 const app = express();
 const path = require("path");
 
