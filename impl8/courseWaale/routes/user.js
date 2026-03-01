@@ -4,8 +4,8 @@ const {userModel} = require("../db")
 const bcrypt = require("bcrypt");
 const {z} = require("zod");
 const jwt = require("jsonwebtoken");
-const {JWT_SECRET} = require("../config");
-
+const {JWT_USER_SECRET} = require("../config");
+const {userAuthMiddleware} = require("../middlewares/user")
 
 userRouter.post("/login",async (req,res)=>{
     const email = req.body.email;
@@ -23,8 +23,8 @@ userRouter.post("/login",async (req,res)=>{
     const passwordMatch = await bcrypt.compare(req.body.password,response.password);
     if(passwordMatch){
         const token = jwt.sign({
-            email
-        },JWT_SECRET);
+            id : response._id
+        },JWT_USER_SECRET);
         res.json({
             token
         });

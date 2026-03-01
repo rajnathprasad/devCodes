@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const {userRouter} = require("./routes/user");
 const {courseRouter} = require("./routes/course");
 const {adminRouter} = require("./routes/admin")
-const {MONGO_URI, JWT_SECRET,PORT}= require("./config")
+const {MONGO_URI, JWT_USER_SECRET, JWT_ADMIN_SECRET,PORT}= require("./config")
 
 const app = express();
 
