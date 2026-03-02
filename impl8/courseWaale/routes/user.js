@@ -80,7 +80,7 @@ userRouter.post("/signup",async (req,res)=>{
         })
     }
 });
-userRouter.post("/purchases",async (req,res)=>{
+userRouter.post("/purchases",userAuthMiddleware,async (req,res)=>{
     const userId = req.userId;
     const purchases = await purchaseModel.find({
         userId
