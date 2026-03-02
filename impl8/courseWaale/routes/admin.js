@@ -96,20 +96,20 @@ adminRouter.post("/course",adminAuthMiddleware,async (req,res)=>{
 adminRouter.put("/course",adminAuthMiddleware,async (req,res)=>{
     const creatorId = req.adminId;
     const {title, description, price, imageURL, courseId} = req.body;
-    const course = await courseModel.findById(courseId);
-    if(course.creatorId!=creatorId){
-        return res.json({
-            message : "This course doesnt belong to this admin"
-        })
-    }
-    const newCourse = await courseModel.updateOne({
-        _id : courseId
+    const updatedCourse = await courseModel.findOneAndUpdate({
+        _id : courseId,
+        creatorId
     },{
         title, description, price, imageURL
-    });
+    },{new : true});
+    if(!updatedCourse){
+        return res.json({
+            message : "Not updated"
+        })
+    }
     res.json({
         message : "Course Updated",
-        courseId : newCourse._id
+        courseId : updatedCourse._id
     })
 })
 
@@ -123,9 +123,20 @@ adminRouter.get("/course",adminAuthMiddleware,async (req,res)=>{
     })
 })
 
-adminRouter.delete("/course",adminAuthMiddleware,(req,res)=>{
-    res.json({
-        message : "Signup Endpoint"
+adminRouter.delete("/course",adminAuthMiddleware,async (req,res)=>{
+    const creatorId = req.adminId;
+    const {courseId} = req.body;
+    const deletedCourse = await courseModel.findOneAndDelete({
+        _id : courseId,
+        creatorId
+    });
+    if(!deletedCourse){
+        return res.json({
+            message : "Not deleted"
+        })
+    }
+    return res.json({
+        message : "Course deleted",
     })
 })
 
