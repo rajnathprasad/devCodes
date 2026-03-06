@@ -1,9 +1,16 @@
-import {BrowserRouter, Routes, Route} from "react-router-dom"
+import {BrowserRouter, Routes, Route, Link, useNavigate} from "react-router-dom"
 
 function App() {
   return (
     <>
       <BrowserRouter>
+      <div>
+      <Link to="/">Homepage </Link>
+      |
+      <Link to="/java">JAVA </Link> 
+      |
+      <Link to="/cpp">CPP </Link> 
+      </div>
       <Routes>
         <Route path="/" element={<Landing/>}/>
         <Route path="/java" element={<Java/>}/>
@@ -29,9 +36,14 @@ function Java(){
   )
 }
 function Cpp(){
+  const navigate = useNavigate();
+  function redirectUser(){
+    navigate("/")
+  }
   return(
     <>
     Welcome to the CPP Course
+    <button onClick={redirectUser}>Go to landing page</button>
     </>
   )
 }
